@@ -7,14 +7,15 @@ import Welcome from "./components/Welcome";
 // function HelloWorld() {
 //     return <div>Hello, World!</div>;
 // }
-axios.get("/user/id.json").then(function ({ data }) {
-    console.log("[userId]", data.userId);
-    if (!data.userId) {
-        ReactDOM.render(<Welcome />, document.querySelector("main"));
-    } else {
+//
+axios.get("/user/id.json").then((response) => {
+    console.log("[userId]", response.data.userId);
+    if (response.data.userId) {
         ReactDOM.render(
-            <img src="/logo.gif" alt="logo" />,
+            <div className="app">Welcome Back!</div>,
             document.querySelector("main")
         );
+        return;
     }
+    ReactDOM.render(<Welcome />, document.querySelector("main"));
 });

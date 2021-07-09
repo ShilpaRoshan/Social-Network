@@ -5,7 +5,7 @@ export default class Registration extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            frist_name: null,
+            first_name: null,
             last_name: null,
             email: null,
             password: null,
@@ -20,7 +20,7 @@ export default class Registration extends Component {
             .post("/api/register", this.state)
             .then((response) => {
                 console.log("[response-in-onFormSubmit]", response);
-                window.location("/");
+                window.location = "/";
             })
             .catch((error) => {
                 console.log("[registration-component-error]", error);
