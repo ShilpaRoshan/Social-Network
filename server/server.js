@@ -21,19 +21,21 @@ app.use(
     })
 );
 
-app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+app.get("/user/id.json", function (request, response) {
+    response.json({
+        userId: response.session.userId,
+    });
 });
 
 //register page
 app.post("/api/register", (request, response) => {
     const { first_name, last_name, email, password } = request.body;
-    let message;
+    let error;
     if (!first_name || !last_name || !email || !password) {
-        message = `Please fill in the details`;
+        error = `Please fill in the details`;
     }
-    if (message) {
-        response.render("/api/register", { message });
+    if (error) {
+        response.json("/api/register", { error });
     }
     //if values are present
     hashPassword(request.body.password).then((password_hash) => {
@@ -47,6 +49,10 @@ app.post("/api/register", (request, response) => {
             }
         );
     });
+});
+
+app.get("*", function (request, response) {
+    response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
 app.listen(process.env.PORT || 3001, function () {
