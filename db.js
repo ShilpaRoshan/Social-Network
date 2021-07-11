@@ -21,7 +21,16 @@ function createUser({ first_name, last_name, email, password_hash }) {
             return result.rows[0];
         });
 }
+function getUserByEmail(email) {
+    return db
+        .query(`SELECT * FROM users WHERE email LIKE $1`, [email])
+        .then((result) => {
+            console.log("[getUserByEmail-db-file]", result.rows[0]);
+            return result.rows[0];
+        });
+}
 
 module.exports = {
     createUser,
+    getUserByEmail,
 };
