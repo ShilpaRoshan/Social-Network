@@ -81,8 +81,13 @@ app.post("/api/register", (request, response) => {
 // }
 //login page
 app.post("/api/login", (request, response) => {
-    // const { email, password } = request.body;
-    login(request.body)
+    const { email, password } = request.body;
+    let errorMessage;
+    if (!email || !password) {
+        response.json({ errorMessage: "Wrong Credentials" });
+        return;
+    }
+    login(email, password)
         .then((user) => {
             console.log("[user-in-login]", user);
             console.log("[user-id-in-login]", request.session.userId);
@@ -90,9 +95,9 @@ app.post("/api/login", (request, response) => {
             response.json(user);
         })
         .catch((error) => {
-            console.log("[/api/login-error]", error);
+            //console.log("[/api/login-error]", error);
+            response.json({ error: errorMessage });
             response.statusCode = 400;
-            response.json({ error: "Wrong Credentials" });
         });
 });
 

@@ -8,6 +8,7 @@ export default class Login extends Component {
         this.state = {
             email: null,
             password: null,
+            error: null,
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -62,9 +63,9 @@ export default class Login extends Component {
 
                     <button type="submit">Login</button>
                 </form>
-                {/* {this.state.errorMessage && (
+                {this.state.errorMessage && (
                     <p className="error">{this.state.errorMessage}</p>
-                )} */}
+                )}
             </div>
         );
     }
