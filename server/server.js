@@ -13,6 +13,7 @@ const {
     getCodeByEmail,
     getUserByEmail,
     updatePassword,
+    getUserById,
 } = require("../db");
 
 const app = express();
@@ -142,6 +143,8 @@ app.post("/api/password/reset/start", (request, response) => {
 
 //verfication
 app.post("/api/password/reset/verify", (request, response) => {
+    console.log("[request-body-/api/password/reset/verify]", request.body);
+    const { email, password } = request.body;
     getCodeByEmail({ ...request.body })
         .then((result) => {
             if (!result) {
@@ -150,7 +153,7 @@ app.post("/api/password/reset/verify", (request, response) => {
                 return;
             }
             if (result.code === request.body.code) {
-                updatePassword({ ...request.body })
+                updatePassword({ password, email })
                     .then(() => {
                         console.log("[RESET SUCCESSFULL!!]");
                         response.statusCode = 200;
@@ -167,6 +170,11 @@ app.post("/api/password/reset/verify", (request, response) => {
             response.statusCode = 500;
         });
 });
+
+// app.get("/api/user", (request, response) => {
+//     const { id } = request.session;
+//     getUserById(id).;
+// });
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));

@@ -32,7 +32,7 @@ function getUserByEmail(email) {
             return result.rows[0];
         });
 }
-
+//for storing OTP
 function createOneTimePassword({ email, code }) {
     return db
         .query(
@@ -43,7 +43,7 @@ function createOneTimePassword({ email, code }) {
             return result.rows[0];
         });
 }
-
+//filtering by email to use in password verification
 function getCodeByEmail({ email, code }) {
     return db
         .query(
@@ -54,17 +54,27 @@ function getCodeByEmail({ email, code }) {
             return result.rows[0];
         });
 }
-function updatePassword({ email, password }) {
+//to use in password verification and update the password
+function updatePassword({ password, email }) {
     return hashPassword(password).then((password_hash) => {
         return db
             .query(
                 `UPDATE users SET password_hash = $1 WHERE email = $2 RETURNING * `,
-                [email, password_hash]
+                [password_hash, email]
             )
             .then((result) => {
+                console.log("[update the password]", result);
                 return result.rows[0];
             });
     });
+}
+
+function getUserById(id) {
+    return db
+        .query(`SELECT * FROM users WHERE id LIKE $1`, [id])
+        .then((result) => {
+            return result.rows[0];
+        });
 }
 
 module.exports = {
@@ -73,4 +83,5 @@ module.exports = {
     createOneTimePassword,
     getCodeByEmail,
     updatePassword,
+    getUserById,
 };
