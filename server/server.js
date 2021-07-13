@@ -2,10 +2,19 @@ const express = require("express");
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
+const cryptoRandomString = require("crypto-random-string");
 const { hashPassword } = require("../hashPassword.js");
 const { login } = require("../login.js");
-const { createUser } = require("../db");
+const { sendEmail } = require("../ses");
 const csurf = require("csurf");
+const {
+    createUser,
+    createOneTimePassword,
+    getCodeByEmail,
+    getUserByEmail,
+    updatePassword,
+} = require("../db");
+
 const app = express();
 
 app.use(compression());
@@ -42,7 +51,7 @@ app.get("/user/id.json", function (request, response) {
 app.post("/api/register", (request, response) => {
     let emailTaken;
     const { first_name, last_name, email, password } = request.body;
-    console.log("[request-body]", request.body);
+    //console.log("[request-body]", request.body);
 
     if (!first_name || !last_name || !email || !password) {
         //response.sendStatus(500);
@@ -57,10 +66,10 @@ app.post("/api/register", (request, response) => {
                 password_hash,
             })
                 .then((user) => {
-                    console.log("[User]", user);
-                    console.log("[user-id]", request.session.userId);
+                    //console.log("[User]", user);
+                    //console.log("[user-id]", request.session.userId);
                     request.session.userId = user.id;
-                    console.log("hello", user.id);
+                    //console.log("hello", user.id);
                     response.json(user);
                 })
                 .catch((error) => {
@@ -95,9 +104,65 @@ app.post("/api/login", (request, response) => {
             response.json(user);
         })
         .catch((error) => {
-            //console.log("[/api/login-error]", error);
+            console.log("[/api/login-error]", error);
             response.json({ error: errorMessage });
             response.statusCode = 400;
+        });
+});
+
+//password reset part-1
+app.post("/api/password/reset/start", (request, response) => {
+    const { email } = request.body;
+    const secretCode = cryptoRandomString({ length: 6 });
+    getUserByEmail(email)
+        .then((foundUser) => {
+            if (!foundUser) {
+                response.statusCode = 400;
+                response.json({ message: "Please Register!!" });
+                return;
+            }
+            sendEmail(email, secretCode);
+            createOneTimePassword({ email, secretCode })
+                .then(() => {
+                    response.statusCode = 200;
+                    response.json({ message: "Success!!" });
+                })
+                .catch((error) => {
+                    console.log("[error-in-createOneTimePassword]", error);
+                    response.statusCode = 500;
+                });
+        })
+        .catch((error) => {
+            console.log("[error-in-getUserByEmail]", error);
+            response.statusCode = 500;
+        });
+});
+
+//verfication
+app.post("/api/password/reset/verify", (request, response) => {
+    getCodeByEmail({ ...request.body })
+        .then((result) => {
+            if (!result) {
+                response.statusCode = 400;
+                response.json({ message: "Something went wrong!!" });
+                return;
+            }
+            if (result.code === request.body.code) {
+                updatePassword({ ...request.body })
+                    .then(() => {
+                        console.log("[RESET SUCCESSFULL!!]");
+                        response.statusCode = 200;
+                        response.json({ message: "Successful!!" });
+                    })
+                    .catch((error) => {
+                        console.log("[error-in-updatePassword]", error);
+                        response.statusCode = 500;
+                    });
+            }
+        })
+        .catch((error) => {
+            console.log("[error-in-getCodeByEmail]", error);
+            response.statusCode = 500;
         });
 });
 

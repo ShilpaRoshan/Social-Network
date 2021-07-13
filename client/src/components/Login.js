@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "../axios";
 
 export default class Login extends Component {
@@ -60,8 +61,12 @@ export default class Login extends Component {
                         required
                         onChange={this.onChange}
                     />
-
-                    <button type="submit">Login</button>
+                    <div>
+                        <button type="submit">Login</button>
+                        <Link to="/api/password/reset/start">
+                            Forgot Password Click here!!
+                        </Link>
+                    </div>
                 </form>
                 {this.state.errorMessage && (
                     <p className="error">{this.state.errorMessage}</p>
