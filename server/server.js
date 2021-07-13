@@ -113,7 +113,7 @@ app.post("/api/login", (request, response) => {
 //password reset part-1
 app.post("/api/password/reset/start", (request, response) => {
     const { email } = request.body;
-    const secretCode = cryptoRandomString({ length: 6 });
+    const code = cryptoRandomString({ length: 6 });
     getUserByEmail(email)
         .then((foundUser) => {
             if (!foundUser) {
@@ -121,9 +121,11 @@ app.post("/api/password/reset/start", (request, response) => {
                 response.json({ message: "Please Register!!" });
                 return;
             }
-            sendEmail(email, secretCode);
-            createOneTimePassword({ email, secretCode })
+            console.log("[hello]", code);
+            sendEmail(email, code);
+            createOneTimePassword({ email, code })
                 .then(() => {
+                    console.log("[email]", email);
                     response.statusCode = 200;
                     response.json({ message: "Success!!" });
                 })

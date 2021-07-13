@@ -26,7 +26,7 @@ export default class ResetPassword extends Component {
             .catch((error) => {
                 console.log(
                     "[error-in-reset-password-step1]",
-                    error.response.data.message
+                    error.response.data
                 );
                 this.setState({ error: error.response.data.message });
             });

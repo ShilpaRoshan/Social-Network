@@ -31,5 +31,8 @@ exports.sendEmail = (to, code) => {
                 },
             },
         })
-        .promise();
+        .promise()
+        .then(() => {
+            console.log("[code]", code);
+        });
 };
