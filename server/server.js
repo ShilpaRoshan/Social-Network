@@ -8,7 +8,7 @@ const { login } = require("../login.js");
 const { sendEmail } = require("../ses");
 const csurf = require("csurf");
 const { s3Upload } = require("../s3");
-const { uploader } = require("../upload");
+const { uploader } = require("./upload");
 const {
     createUser,
     createOneTimePassword,
@@ -175,7 +175,7 @@ app.post("/api/password/reset/verify", (request, response) => {
 });
 
 app.get("/api/user", (request, response) => {
-    const { id } = request.session;
+    const id = request.session.userId;
     getUserById(id)
         .then((user) => {
             if (!user) {
@@ -185,7 +185,7 @@ app.get("/api/user", (request, response) => {
             }
             console.log("[user-getUserById]", user);
             response.json({
-                user_id: user.id,
+                userId: user.id,
                 firstName: user.first_name,
                 lastName: user.last_name,
                 profileUrl: user.profile_url,
@@ -202,10 +202,10 @@ app.post(
     uploader.single("file"),
     s3Upload,
     (request, response) => {
-        const { id } = request.session;
+        const id = request.session.userId;
         const { filename } = request.file;
-        const profilePicURL = `https://s3.amazonaws.com/spicedling/${filename}`;
-        updateUserProfile({ profilePicURL, id })
+        const profileUrl = `https://s3.amazonaws.com/spicedling/${filename}`;
+        updateUserProfile({ profileUrl, id })
             .then((result) => {
                 if (!result) {
                     response.statusCode = 400;
@@ -214,10 +214,10 @@ app.post(
                 }
                 console.log(
                     "[profilePicURL-updateUserProfile]",
-                    result.profilePicURL
+                    result.profileUrl
                 );
                 console.log("[is-updateUserProfile]", result.id);
-                response.json({ profilePicURL });
+                response.json({ profileUrl });
             })
             .catch((error) => {
                 console.log("[error-in-updateUserProfile]", error);

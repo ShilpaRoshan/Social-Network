@@ -12,13 +12,15 @@ export default class ProfilePictureUploader extends Component {
     }
     onFormSubmit(event) {
         event.preventDefault();
-        axios.post("/api/upload_picture", this.state).then((response) => {
+        const data = new FormData();
+        data.append("file", this.state.file);
+        axios.post("/api/upload_picture", data).then((response) => {
             console.log("[ProfilePictureUploader-imageurl]", response.data);
             console.log(
                 "[ProfilePictureUploader-imageurl]",
-                response.data.profile_url
+                response.data.profileUrl
             );
-            this.props.onUpload(response.data.profile_url);
+            this.props.onUpload(response.data.profileUrl);
         });
     }
 

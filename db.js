@@ -77,10 +77,10 @@ function getUserById(id) {
         });
 }
 
-function updateUserProfile({ profile_url, id }) {
+function updateUserProfile({ profileUrl, id }) {
     return db
         .query(`UPDATE users SET profile_url = $1 WHERE id = $2 RETURNING *`, [
-            profile_url,
+            profileUrl,
             id,
         ])
         .then((result) => {

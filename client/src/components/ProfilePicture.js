@@ -1,9 +1,15 @@
-export default function ProfilePicture({ first_name, last_name, profile_url }) {
+export default function ProfilePicture({
+    firstName,
+    lastName,
+    profileUrl,
+    onClick,
+}) {
     return (
         <img
             className="profile-picture"
-            src={profile_url}
-            alt={`${first_name} ${last_name}`}
+            src={`${profileUrl}`}
+            alt={`${firstName} ${lastName}`}
+            onClick={onClick}
         ></img>
     );
 }
