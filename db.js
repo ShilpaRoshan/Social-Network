@@ -71,7 +71,18 @@ function updatePassword({ password, email }) {
 
 function getUserById(id) {
     return db
-        .query(`SELECT * FROM users WHERE id LIKE $1`, [id])
+        .query(`SELECT * FROM users WHERE id = $1`, [id])
+        .then((result) => {
+            return result.rows[0];
+        });
+}
+
+function updateUserProfile({ profile_url, id }) {
+    return db
+        .query(`UPDATE users SET profile_url = $1 WHERE id = $2 RETURNING *`, [
+            profile_url,
+            id,
+        ])
         .then((result) => {
             return result.rows[0];
         });
@@ -84,4 +95,5 @@ module.exports = {
     getCodeByEmail,
     updatePassword,
     getUserById,
+    updateUserProfile,
 };

@@ -7,6 +7,8 @@ const { hashPassword } = require("../hashPassword.js");
 const { login } = require("../login.js");
 const { sendEmail } = require("../ses");
 const csurf = require("csurf");
+const { s3Upload } = require("../s3");
+const { uploader } = require("../upload");
 const {
     createUser,
     createOneTimePassword,
@@ -14,6 +16,7 @@ const {
     getUserByEmail,
     updatePassword,
     getUserById,
+    updateUserProfile,
 } = require("../db");
 
 const app = express();
@@ -171,10 +174,57 @@ app.post("/api/password/reset/verify", (request, response) => {
         });
 });
 
-// app.get("/api/user", (request, response) => {
-//     const { id } = request.session;
-//     getUserById(id).;
-// });
+app.get("/api/user", (request, response) => {
+    const { id } = request.session;
+    getUserById(id)
+        .then((user) => {
+            if (!user) {
+                response.statusCode = 400;
+                response.json({ message: "Something went wrong" });
+                return;
+            }
+            console.log("[user-getUserById]", user);
+            response.json({
+                user_id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                profileUrl: user.profile_url,
+            });
+        })
+        .catch((error) => {
+            console.log("[error-in-getUserById]", error);
+            response.statusCode = 500;
+        });
+});
+
+app.post(
+    "/api/upload_picture",
+    uploader.single("file"),
+    s3Upload,
+    (request, response) => {
+        const { id } = request.session;
+        const { filename } = request.file;
+        const profilePicURL = `https://s3.amazonaws.com/spicedling/${filename}`;
+        updateUserProfile({ profilePicURL, id })
+            .then((result) => {
+                if (!result) {
+                    response.statusCode = 400;
+                    response.json({ message: "Something went wrong!!" });
+                    return;
+                }
+                console.log(
+                    "[profilePicURL-updateUserProfile]",
+                    result.profilePicURL
+                );
+                console.log("[is-updateUserProfile]", result.id);
+                response.json({ profilePicURL });
+            })
+            .catch((error) => {
+                console.log("[error-in-updateUserProfile]", error);
+                response.statusCode = 500;
+            });
+    }
+);
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));

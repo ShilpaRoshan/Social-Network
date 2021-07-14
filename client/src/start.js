@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
 import axios from "./axios";
 import Welcome from "./components/Welcome";
+import App from "./components/App";
 
 //ReactDOM.render(<HelloWorld />, document.querySelector("main"));
 
@@ -10,13 +11,11 @@ import Welcome from "./components/Welcome";
 //
 axios.get("/user/id.json").then((response) => {
     console.log("[userId]", response.data.id);
+    //user logged-in
     if (response.data.id) {
-        ReactDOM.render(
-            <div className="app">Welcome Back!</div>,
-            document.querySelector("main")
-        );
-
+        ReactDOM.render(<App />, document.querySelector("main"));
         return;
     }
+    //user logged out
     ReactDOM.render(<Welcome />, document.querySelector("main"));
 });
