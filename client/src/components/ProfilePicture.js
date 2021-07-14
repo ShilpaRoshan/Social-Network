@@ -1,3 +1,4 @@
+const defaultImage = "../avatar.png";
 export default function ProfilePicture({
     firstName,
     lastName,
@@ -7,7 +8,7 @@ export default function ProfilePicture({
     return (
         <img
             className="profile-picture"
-            src={`${profileUrl}`}
+            src={profileUrl || defaultImage}
             alt={`${firstName} ${lastName}`}
             onClick={onClick}
         ></img>
