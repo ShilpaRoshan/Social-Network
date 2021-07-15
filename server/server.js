@@ -17,6 +17,7 @@ const {
     updatePassword,
     getUserById,
     updateUserProfile,
+    updateUserBio,
 } = require("../db");
 
 const app = express();
@@ -48,7 +49,7 @@ app.get("/user/id.json", function (request, response) {
     response.json({
         id: request.session.userId,
     });
-    console.log("[id.json]");
+    console.log("[id.json]", request.session.userId);
 });
 
 //register page
@@ -189,10 +190,32 @@ app.get("/api/user", (request, response) => {
                 firstName: user.first_name,
                 lastName: user.last_name,
                 profileUrl: user.profile_url,
+                bio: user.bio,
             });
         })
         .catch((error) => {
             console.log("[error-in-getUserById]", error);
+            response.statusCode = 500;
+        });
+});
+
+app.put("/api/user", (request, response) => {
+    const { bio } = request.body;
+    const id = request.session.userId;
+    updateUserBio({ bio, id })
+        .then((result) => {
+            if (!result) {
+                response.statusCode = 400;
+                response.json({
+                    message: "Something went wrong while updating bio",
+                });
+                return;
+            }
+            console.log("[updateUserBio-bio & id]", result.bio, result.id);
+            response.json({ bio });
+        })
+        .catch((error) => {
+            console.log("[error-in-updateUserBio]", error);
             response.statusCode = 500;
         });
 });

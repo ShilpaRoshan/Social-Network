@@ -87,6 +87,13 @@ function updateUserProfile({ profileUrl, id }) {
             return result.rows[0];
         });
 }
+function updateUserBio({ bio, id }) {
+    return db
+        .query(`UPDATE users SET bio = $1 WHERE id = $2 RETURNING *`, [bio, id])
+        .then((result) => {
+            return result.rows[0];
+        });
+}
 
 module.exports = {
     createUser,
@@ -96,4 +103,5 @@ module.exports = {
     updatePassword,
     getUserById,
     updateUserProfile,
+    updateUserBio,
 };

@@ -1,6 +1,7 @@
 import { Component } from "react";
 import ProfilePicture from "./ProfilePicture.js";
 import ProfilePictureUploader from "./ProfilePictureUploade.js";
+import Profile from "./Profile";
 import axios from "../axios";
 
 export default class App extends Component {
@@ -10,11 +11,13 @@ export default class App extends Component {
             firstName: "",
             lastName: "",
             profileUrl: "",
+            bio: "",
             showModal: false,
         };
         this.onProfilePictureClick = this.onProfilePictureClick.bind(this);
         this.onUpload = this.onUpload.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
+        this.onBioChange = this.onBioChange.bind(this);
     }
     componentDidMount() {
         axios
@@ -48,6 +51,17 @@ export default class App extends Component {
         console.log("hello");
         this.setState({ showModal: false });
     }
+    onBioChange(newBio) {
+        console.log("[App:onBioChange]", newBio);
+        axios
+            .put("/api/user", { bio: newBio })
+            .then(() => {
+                this.setState({ bio: newBio });
+            })
+            .catch((error) => {
+                console.log("[App-onBioChange]", error);
+            });
+    }
     render() {
         return (
             <div className="app">
@@ -66,6 +80,13 @@ export default class App extends Component {
                         onModalClose={this.onModalClose}
                     />
                 )}
+                <Profile
+                    firstName={this.state.firstName}
+                    lastName={this.state.lastName}
+                    profileUrl={this.state.profileUrl}
+                    bio={this.state.bio}
+                    onBioChange={this.onBioChange}
+                />
             </div>
         );
     }
