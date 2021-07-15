@@ -2,6 +2,8 @@ import { Component } from "react";
 import ProfilePicture from "./ProfilePicture.js";
 import ProfilePictureUploader from "./ProfilePictureUploade.js";
 import Profile from "./Profile";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+import OtherProfile from "./OtherProfile";
 import axios from "../axios";
 
 export default class App extends Component {
@@ -64,30 +66,36 @@ export default class App extends Component {
     }
     render() {
         return (
-            <div className="app">
-                <header>
-                    <span className="logo">Logo</span>
-                    <ProfilePicture
-                        firstName={this.state.firstName}
-                        lastName={this.state.lastName}
-                        profileUrl={this.state.profileUrl}
-                        onClick={this.onProfilePictureClick}
-                    />
-                </header>
-                {this.state.showModal && (
-                    <ProfilePictureUploader
-                        onUpload={this.onUpload}
-                        onModalClose={this.onModalClose}
-                    />
-                )}
-                <Profile
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    profileUrl={this.state.profileUrl}
-                    bio={this.state.bio}
-                    onBioChange={this.onBioChange}
-                />
-            </div>
+            <BrowserRouter>
+                <div className="app">
+                    <header>
+                        <span className="logo">Logo</span>
+                        <ProfilePicture
+                            firstName={this.state.firstName}
+                            lastName={this.state.lastName}
+                            profileUrl={this.state.profileUrl}
+                            onClick={this.onProfilePictureClick}
+                        />
+                    </header>
+                    {this.state.showModal && (
+                        <ProfilePictureUploader
+                            onUpload={this.onUpload}
+                            onModalClose={this.onModalClose}
+                        />
+                    )}
+                    <Route exact path="/">
+                        <Profile
+                            firstName={this.state.firstName}
+                            lastName={this.state.lastName}
+                            profileUrl={this.state.profileUrl}
+                            bio={this.state.bio}
+                            onBioChange={this.onBioChange}
+                        />
+                        <Link to="/user/:id">Other profiles</Link>
+                    </Route>
+                    <Route path="/user/:id" component={OtherProfile} />
+                </div>
+            </BrowserRouter>
         );
     }
 }
