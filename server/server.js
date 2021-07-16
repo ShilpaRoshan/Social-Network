@@ -251,12 +251,19 @@ app.post(
 app.get("/api/user/:id", (request, response) => {
     const id = request.params.id;
     getUserById(id).then((result) => {
+        console.log("[result-/api/user/:id]", result);
         if (!result) {
             response.statusCode = 404;
             response.json({ message: "Not found" });
             return;
         }
-        response.json(result);
+        response.json({
+            id: result.id,
+            firstName: result.first_name,
+            lastName: result.last_name,
+            profileUrl: result.profile_url,
+            bio: result.bio,
+        });
     });
 });
 

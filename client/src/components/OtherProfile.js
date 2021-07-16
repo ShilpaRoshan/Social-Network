@@ -32,7 +32,10 @@ export default class OtherProfile extends Component {
                 profileUrl: response.data.profileUrl,
                 bio: response.data.bio,
             });
-            console.log("[componentDidMount-OtherProfile-state]", this.state);
+            console.log(
+                "[componentDidMount-OtherProfile-state]",
+                response.data.firstName
+            );
         });
     }
 
