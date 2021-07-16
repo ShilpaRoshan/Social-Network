@@ -14,12 +14,17 @@ export default class OtherProfile extends Component {
         };
     }
     componentDidMount() {
-        const id = this.props.match.params.id;
-        axios.get("/api/user" + id).then((response) => {
+        const { id } = this.props.match.params;
+        console.log("[id-params-OtherProfile]", id);
+        axios.get("/api/user/" + id).then((response) => {
             if (!response.data) {
                 this.props.history.push("/");
                 return;
             }
+            console.log(
+                "[componentDidMount-OtherProfile]",
+                response.data.firstName
+            );
             this.setState({
                 id: response.data.id,
                 firstName: response.data.firstName,
@@ -27,6 +32,7 @@ export default class OtherProfile extends Component {
                 profileUrl: response.data.profileUrl,
                 bio: response.data.bio,
             });
+            console.log("[componentDidMount-OtherProfile-state]", this.state);
         });
     }
 

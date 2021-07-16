@@ -30,6 +30,7 @@ export default class App extends Component {
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     profileUrl: response.data.profileUrl,
+                    bio: response.data.bio,
                 });
             })
             .catch((error) => {
