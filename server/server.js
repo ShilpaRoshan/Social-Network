@@ -248,6 +248,17 @@ app.post(
             });
     }
 );
+app.get("/api/user/:id", (request, response) => {
+    const id = request.params.id;
+    getUserById(id).then((result) => {
+        if (!result) {
+            response.statusCode = 404;
+            response.json({ message: "Not found" });
+            return;
+        }
+        response.json(result);
+    });
+});
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
