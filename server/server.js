@@ -277,7 +277,9 @@ app.get("/api/users/most-recent", (request, response) => {
 });
 app.get("/api/users/search", (request, response) => {
     const { value } = request.query;
+    console.log("[/api/users/search-query]", request.query);
     console.log("[/api/users/search-query]", value);
+
     getUserBySearch(value).then((user) => {
         response.json(user);
     });
