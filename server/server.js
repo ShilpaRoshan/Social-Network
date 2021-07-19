@@ -18,6 +18,8 @@ const {
     getUserById,
     updateUserProfile,
     updateUserBio,
+    getMostRecentUsers,
+    getUserBySearch,
 } = require("../db");
 
 const app = express();
@@ -264,6 +266,30 @@ app.get("/api/user/:id", (request, response) => {
             profileUrl: result.profile_url,
             bio: result.bio,
         });
+    });
+});
+
+app.get("/api/users/most-recent", (request, response) => {
+    getMostRecentUsers().then((result) => {
+        console.log("[/api/users/most-recent]", result);
+        if (!result) {
+            response.statusCode = 404;
+            response.json({ message: "Not Found" });
+            return;
+        }
+        response.json({ result });
+    });
+});
+app.get("/api/users/search", (request, response) => {
+    const { value } = request.query;
+    console.log("[/api/users/search-query]", value);
+    getUserBySearch(value).then((result) => {
+        if (!result) {
+            response.statusCode = 400;
+            response.json({ message: "Not Found" });
+            return;
+        }
+        response.json({ result });
     });
 });
 

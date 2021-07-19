@@ -4,6 +4,7 @@ import ProfilePictureUploader from "./ProfilePictureUploade.js";
 import Profile from "./Profile";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import OtherProfile from "./OtherProfile";
+import FindPeople from "./FindPeople";
 import axios from "../axios";
 
 export default class App extends Component {
@@ -93,8 +94,12 @@ export default class App extends Component {
                             onBioChange={this.onBioChange}
                         />
                         <Link to="/user/:id">Other profiles</Link>
+                        <Link to="users">Find People</Link>
                     </Route>
                     <Route path="/user/:id" component={OtherProfile} />
+                    <Route path="/users">
+                        <FindPeople></FindPeople>
+                    </Route>
                 </div>
             </BrowserRouter>
         );

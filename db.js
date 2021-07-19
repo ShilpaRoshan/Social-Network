@@ -94,6 +94,25 @@ function updateUserBio({ bio, id }) {
             return result.rows[0];
         });
 }
+function getMostRecentUsers() {
+    return db
+        .query(
+            `SELECT first_name, last_name, profile_url FROM users ORDER BY id DESC LIMIT 3`
+        )
+        .then((result) => {
+            return result.rows;
+        });
+}
+function getUserBySearch(value) {
+    return db
+        .query(
+            `SELECT first_name, last_name, profile_url FROM users WHERE first_name ILIKE $1`,
+            [value + "%"]
+        )
+        .then((result) => {
+            return result.rows;
+        });
+}
 
 module.exports = {
     createUser,
@@ -104,4 +123,6 @@ module.exports = {
     getUserById,
     updateUserProfile,
     updateUserBio,
+    getMostRecentUsers,
+    getUserBySearch,
 };
