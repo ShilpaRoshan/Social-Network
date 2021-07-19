@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import ProfilePicture from "./ProfilePicture";
 import axios from "../axios";
 
 export default function FindPeople() {
@@ -15,7 +16,7 @@ export default function FindPeople() {
     }, []);
 
     useEffect(() => {
-        if (searchTerm.length > 2) {
+        if (searchTerm.length > 1) {
             axios
                 .get("/api/users/search?value=" + { searchTerm })
                 .then((response) => {
@@ -35,8 +36,9 @@ export default function FindPeople() {
             console.log("[user-in-renderMostRecentUsers]", user);
             return (
                 <li key={user.id}>
-                    {user.firstName}
-                    {user.lastName}
+                    <Link to={`/users/${user.id}`}>
+                        {user.first_name} {user.last_name}
+                    </Link>
                 </li>
             );
         });
@@ -46,9 +48,9 @@ export default function FindPeople() {
         return results.map((user) => {
             return (
                 <li key={user.id}>
-                    <img src={user.profileUrl}></img>
+                    <img src={user.profile_url}></img>
                     <Link to={`/users/${user.id}`}>
-                        {user.firstName} {user.lastName}
+                        {user.first_name} {user.last_name}
                     </Link>
                 </li>
             );

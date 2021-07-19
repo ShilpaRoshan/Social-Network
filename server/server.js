@@ -270,26 +270,16 @@ app.get("/api/user/:id", (request, response) => {
 });
 
 app.get("/api/users/most-recent", (request, response) => {
-    getMostRecentUsers().then((result) => {
-        console.log("[/api/users/most-recent]", result);
-        if (!result) {
-            response.statusCode = 404;
-            response.json({ message: "Not Found" });
-            return;
-        }
-        response.json({ result });
+    getMostRecentUsers().then((user) => {
+        console.log("[getMostRecentUsers]", user);
+        response.json(user);
     });
 });
 app.get("/api/users/search", (request, response) => {
     const { value } = request.query;
     console.log("[/api/users/search-query]", value);
-    getUserBySearch(value).then((result) => {
-        if (!result) {
-            response.statusCode = 400;
-            response.json({ message: "Not Found" });
-            return;
-        }
-        response.json({ result });
+    getUserBySearch(value).then((user) => {
+        response.json(user);
     });
 });
 

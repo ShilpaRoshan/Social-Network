@@ -97,7 +97,7 @@ function updateUserBio({ bio, id }) {
 function getMostRecentUsers() {
     return db
         .query(
-            `SELECT first_name, last_name, profile_url FROM users ORDER BY id DESC LIMIT 3`
+            `SELECT id, first_name, last_name, profile_url FROM users ORDER BY id DESC LIMIT 3`
         )
         .then((result) => {
             return result.rows;
@@ -106,7 +106,7 @@ function getMostRecentUsers() {
 function getUserBySearch(value) {
     return db
         .query(
-            `SELECT first_name, last_name, profile_url FROM users WHERE first_name ILIKE $1`,
+            `SELECT id, first_name, last_name, profile_url FROM users WHERE first_name ILIKE $1`,
             [value + "%"]
         )
         .then((result) => {
