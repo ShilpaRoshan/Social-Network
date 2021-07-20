@@ -20,6 +20,10 @@ const {
     updateUserBio,
     getMostRecentUsers,
     getUserBySearch,
+    getUserRelationship,
+    addFriendRequest,
+    updateFriendship,
+    deleteFriendship,
 } = require("../db");
 
 const app = express();
@@ -282,6 +286,59 @@ app.get("/api/users/search", (request, response) => {
 
     getUserBySearch(value).then((user) => {
         response.json(user);
+    });
+});
+
+app.get("/api/user/:id/relationship", (request, response) => {
+    const firstId = request.session.userId;
+    const secondId = request.params.id;
+    console.log("[firstId]", firstId);
+    console.log("[secondId]", secondId);
+    getUserRelationship(firstId, secondId).then((friendship) => {
+        console.log("[friendship-before]", friendship);
+        if (!friendship) {
+            response.statusCode = 404;
+            response.json({ message: "No relationship" });
+            return;
+        }
+        console.log("[friendship]", friendship);
+        response.json(friendship);
+    });
+});
+
+app.post("/api/user/:id/relationship", (request, response) => {
+    const firstId = request.session.userId;
+    const secondId = request.params.id;
+    console.log("[firstId-in-post]", firstId);
+    console.log("[secondId]-in-post", secondId);
+
+    addFriendRequest(firstId, secondId).then((friend) => {
+        console.log("[addFriendRequest-friend]", friend);
+        response.json(friend);
+    });
+});
+
+app.put("/api/user/:id/relationship", (request, response) => {
+    const firstId = request.session.userId;
+    const secondId = request.params.id;
+    console.log("[firstId-in-post]", firstId);
+    console.log("[secondId]-in-post", secondId);
+
+    updateFriendship(firstId, secondId).then((friend) => {
+        console.log("[updateFriendship-friend-server]", friend);
+        response.json(friend);
+    });
+});
+
+app.delete("/api/user/:id/relationship", (request, response) => {
+    const firstId = request.session.userId;
+    const secondId = request.params.id;
+    console.log("[firstId-in-delete]", firstId);
+    console.log("[secondId-in-delete]", secondId);
+
+    deleteFriendship(firstId, secondId).then((friend) => {
+        console.log("[deleteFriendship-friend-server]", friend);
+        response.json(friend);
     });
 });
 

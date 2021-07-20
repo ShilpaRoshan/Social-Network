@@ -1,4 +1,5 @@
 import { Component } from "react";
+import FriendButton from "./FriendButton";
 import axios from "../axios";
 
 const defaultImage = "../avatar.png";
@@ -50,6 +51,11 @@ export default class OtherProfile extends Component {
                     {this.state.firstName} {this.state.lastName}
                 </h3>
                 <p>{this.state.bio}</p>
+                <div className="friend-request">
+                    <FriendButton
+                        id={this.props.match.params.id}
+                    ></FriendButton>
+                </div>
             </div>
         );
     }
