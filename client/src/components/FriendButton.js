@@ -16,6 +16,10 @@ export default function FriendButton({ id }) {
             }
             setExisting(true);
             setAccepted(response.data.accepted);
+            console.log(
+                "[Accepted-value-friendbutton]",
+                response.data.accepted
+            );
             console.log("[incoming id request]", id == response.data.sender_id);
             setIncoming(id == response.data.sender_id);
         });
@@ -42,23 +46,32 @@ export default function FriendButton({ id }) {
     }, [existing, accepted, incoming]);
 
     function buttonClick() {
-        console.log("hello!");
+        // console.log("hello!");
         if (!existing) {
             axios.post(`/api/user/${id}/relationship`).then(() => {
                 setExisting(true);
             });
             return;
         }
+        if (!accepted && incoming) {
+            console.log("[PUT case]");
+            axios
+                .put(`/api/user/${id}/relationship`, { accepted: true })
+                .then(() => {
+                    setAccepted(true);
+                    setIncoming(true);
+                });
+            return;
+        }
         if (accepted || !incoming) {
             console.log("[DELETE-case]");
-            axios.delete("/api/user/:id/relationship").then(() => {
+            axios.delete(`/api/user/${id}/relationship`).then(() => {
                 setExisting(false);
                 setAccepted(false);
                 setIncoming(false);
             });
             return;
         }
-        console.log("[PUT case]");
     }
 
     return (

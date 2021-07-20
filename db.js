@@ -114,7 +114,7 @@ function getUserBySearch(value) {
         });
 }
 
-function getUserRelationship(firstId, secondId) {
+function getUserRelationship({ firstId, secondId }) {
     return db
         .query(
             `SELECT * FROM friend_requests
@@ -128,11 +128,11 @@ function getUserRelationship(firstId, secondId) {
         });
 }
 
-function addFriendRequest(receiverId, senderId) {
+function addFriendRequest({ senderId, receiverId }) {
     return db
         .query(
             `INSERT INTO friend_requests (receiver_id, sender_id) VALUES ($1, $2) RETURNING *`,
-            [receiverId, senderId]
+            [senderId, receiverId]
         )
         .then((result) => {
             console.log("[addFriendRequest-db]", result.rows[0]);
@@ -140,21 +140,21 @@ function addFriendRequest(receiverId, senderId) {
         });
 }
 
-function updateFriendship(receiverId, senderId) {
+function updateFriendship({ senderId, receiverId }) {
     return db
         .query(
             `UPDATE friend_requests SET accepted = true WHERE receiver_id = $1 AND sender_id = $2 RETURNING *`,
-            [receiverId, senderId]
+            [senderId, receiverId]
         )
         .then((result) => {
             console.log("[updateFriendship-db]", result.rows[0]);
             return result.rows[0];
         });
 }
-function deleteFriendship(firstId, secondId) {
+function deleteFriendship({ firstId, secondId }) {
     return db
         .query(
-            `DELETE * FROM friend_requests
+            `DELETE FROM friend_requests
                     WHERE receiver_id = $1 AND sender_id = $2
                     OR receiver_id = $2 AND sender_id = $1 RETURNING *`,
             [firstId, secondId]

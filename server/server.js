@@ -121,6 +121,13 @@ app.post("/api/login", (request, response) => {
         });
 });
 
+app.post("/api/logout", (request, response) => {
+    console.log("[logout]");
+    request.session.userId = null;
+    response.statusCode = 200;
+    response.json({ message: "logout successful" });
+});
+
 //password reset part-1
 app.post("/api/password/reset/start", (request, response) => {
     const { email } = request.body;
@@ -292,9 +299,9 @@ app.get("/api/users/search", (request, response) => {
 app.get("/api/user/:id/relationship", (request, response) => {
     const firstId = request.session.userId;
     const secondId = request.params.id;
-    console.log("[firstId]", firstId);
-    console.log("[secondId]", secondId);
-    getUserRelationship(firstId, secondId).then((friendship) => {
+    console.log("[firstId-in-getUserRelationship]", firstId);
+    console.log("[secondId-in-getUserRelationship]", secondId);
+    getUserRelationship({ firstId, secondId }).then((friendship) => {
         console.log("[friendship-before]", friendship);
         if (!friendship) {
             response.statusCode = 404;
@@ -312,7 +319,10 @@ app.post("/api/user/:id/relationship", (request, response) => {
     console.log("[firstId-in-post]", firstId);
     console.log("[secondId]-in-post", secondId);
 
-    addFriendRequest(firstId, secondId).then((friend) => {
+    addFriendRequest({
+        senderId: request.session.userId,
+        receiverId: request.params.id,
+    }).then((friend) => {
         console.log("[addFriendRequest-friend]", friend);
         response.json(friend);
     });
@@ -324,7 +334,10 @@ app.put("/api/user/:id/relationship", (request, response) => {
     console.log("[firstId-in-post]", firstId);
     console.log("[secondId]-in-post", secondId);
 
-    updateFriendship(firstId, secondId).then((friend) => {
+    updateFriendship({
+        senderId: request.session.userId,
+        receiverId: request.params.id,
+    }).then((friend) => {
         console.log("[updateFriendship-friend-server]", friend);
         response.json(friend);
     });
@@ -336,10 +349,17 @@ app.delete("/api/user/:id/relationship", (request, response) => {
     console.log("[firstId-in-delete]", firstId);
     console.log("[secondId-in-delete]", secondId);
 
-    deleteFriendship(firstId, secondId).then((friend) => {
-        console.log("[deleteFriendship-friend-server]", friend);
-        response.json(friend);
-    });
+    deleteFriendship({
+        firstId: request.session.userId,
+        secondId: request.params.id,
+    })
+        .then((friend) => {
+            console.log("[deleteFriendship-friend-server]", friend);
+            response.json(friend);
+        })
+        .catch((error) => {
+            console.log("[deleteFriendship-friend-server-error]", error);
+        });
 });
 
 app.get("*", function (request, response) {

@@ -5,6 +5,7 @@ import Profile from "./Profile";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
+import Logout from "./Logout";
 import axios from "../axios";
 
 export default class App extends Component {
@@ -100,6 +101,7 @@ export default class App extends Component {
                     <Route path="/users">
                         <FindPeople></FindPeople>
                     </Route>
+                    <Logout />
                 </div>
             </BrowserRouter>
         );
