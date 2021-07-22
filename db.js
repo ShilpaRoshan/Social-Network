@@ -165,18 +165,19 @@ function deleteFriendship({ firstId, secondId }) {
         });
 }
 
-function getFriendsAndWannabes({ id }) {
+function getFriendsAndWannabes({ userId }) {
     return db
         .query(
-            `SELECT users.id, users.first_name, users.last_name, users.profile_url, f.accpeted
-        FROM friend_requests AS f
-        JOIN users
-        ON (f.accepted = false AND f.receiver_id = $1 AND f.sender_id = users.id)
-        OR (f.accepted = true AND f.receiver_id = $1 AND f.sender_id = users.id)
-        OR (f.accepted = true AND f.sender_id = $1 AND f.receiver_id = users.id)`,
-            [id]
+            `SELECT users.id, first_name, last_name, users.profile_url, accepted
+    FROM friend_requests
+    JOIN users
+    ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)`,
+            [userId]
         )
         .then((result) => {
+            console.log("[getFriendsAndWannabes-db]", result.rows);
             return result.rows;
         });
 }

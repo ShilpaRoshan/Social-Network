@@ -371,7 +371,7 @@ app.get("/api/user/friends-and-wannabes", (request, response) => {
     const secondId = request.params.id;
     console.log("[firstId-in-getFriendsAndWannabes]", firstId);
     console.log("[secondId-in-getFriendsAndWannabes]", secondId);
-    getFriendsAndWannabes({ id: request.session.id }).then((result) => {
+    getFriendsAndWannabes({ ...request.session }).then((result) => {
         console.log("[getFriendsAndWannabes-result]", result);
         response.json(result);
     });
