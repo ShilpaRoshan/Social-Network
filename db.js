@@ -199,3 +199,9 @@ module.exports = {
     deleteFriendship,
     getFriendsAndWannabes,
 };
+// SELECT users.id, first_name, last_name, users.profile_url, accepted
+//     FROM friend_requests
+//     JOIN users
+//     ON (accepted = false AND receiver_id = 95 AND sender_id = users.id)
+//     OR (accepted = true AND receiver_id = 95 AND sender_id = users.id)
+//     OR (accepted = true AND sender_id = 95 AND receiver_id = users.id)

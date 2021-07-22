@@ -198,7 +198,7 @@ app.get("/api/user", (request, response) => {
                 response.json({ message: "Something went wrong" });
                 return;
             }
-            console.log("[user-getUserById]", user);
+            //console.log("[user-getUserById]", user);
             response.json({
                 userId: user.id,
                 firstName: user.first_name,
@@ -366,15 +366,16 @@ app.delete("/api/user/:id/relationship", (request, response) => {
         });
 });
 
-app.get("/api/user/friends-and-wannabes", (request, response) => {
-    const firstId = request.session.userId;
-    const secondId = request.params.id;
-    console.log("[firstId-in-getFriendsAndWannabes]", firstId);
-    console.log("[secondId-in-getFriendsAndWannabes]", secondId);
-    getFriendsAndWannabes({ ...request.session }).then((result) => {
-        console.log("[getFriendsAndWannabes-result]", result);
-        response.json(result);
-    });
+app.get("/api/friends_and_wannabes", (request, response) => {
+    console.log("request.session in server", request.session);
+    getFriendsAndWannabes({ ...request.session })
+        .then((result) => {
+            console.log("[getFriendsAndWannabes-result]", result);
+            response.json(result);
+        })
+        .catch((error) => {
+            console.log("[getFriendsAndWannabes]", error);
+        });
 });
 
 app.get("*", function (request, response) {
