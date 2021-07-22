@@ -131,7 +131,7 @@ function getUserRelationship({ firstId, secondId }) {
 function addFriendRequest({ senderId, receiverId }) {
     return db
         .query(
-            `INSERT INTO friend_requests (receiver_id, sender_id) VALUES ($1, $2) RETURNING *`,
+            `INSERT INTO friend_requests (receiver_id,sender_id) VALUES ($1, $2) RETURNING *`,
             [senderId, receiverId]
         )
         .then((result) => {
@@ -165,6 +165,22 @@ function deleteFriendship({ firstId, secondId }) {
         });
 }
 
+function getFriendsAndWannabes({ id }) {
+    return db
+        .query(
+            `SELECT users.id, users.first_name, users.last_name, users.profile_url, f.accpeted
+        FROM friend_requests AS f
+        JOIN users
+        ON (f.accepted = false AND f.receiver_id = $1 AND f.sender_id = users.id)
+        OR (f.accepted = true AND f.receiver_id = $1 AND f.sender_id = users.id)
+        OR (f.accepted = true AND f.sender_id = $1 AND f.receiver_id = users.id)`,
+            [id]
+        )
+        .then((result) => {
+            return result.rows;
+        });
+}
+
 module.exports = {
     createUser,
     getUserByEmail,
@@ -180,4 +196,5 @@ module.exports = {
     addFriendRequest,
     updateFriendship,
     deleteFriendship,
+    getFriendsAndWannabes,
 };

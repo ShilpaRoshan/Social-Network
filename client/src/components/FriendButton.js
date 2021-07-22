@@ -29,7 +29,7 @@ export default function FriendButton({ id }) {
         //for butten to show
         //checking relation exists if not Add friend
         if (!existing) {
-            setButtonText("Add Friend Request");
+            setButtonText("Add Friend");
             return;
         }
         //If accpeted then Unfriend(button show)
@@ -50,6 +50,7 @@ export default function FriendButton({ id }) {
         if (!existing) {
             axios.post(`/api/user/${id}/relationship`).then(() => {
                 setExisting(true);
+                console.log("Sent the request");
             });
             return;
         }
@@ -59,11 +60,12 @@ export default function FriendButton({ id }) {
                 .put(`/api/user/${id}/relationship`, { accepted: true })
                 .then(() => {
                     setAccepted(true);
-                    setIncoming(true);
+                    setIncoming(false);
+                    console.log("[Accepted!!]");
                 });
             return;
         }
-        if (accepted || !incoming) {
+        if (accepted || existing) {
             console.log("[DELETE-case]");
             axios.delete(`/api/user/${id}/relationship`).then(() => {
                 setExisting(false);

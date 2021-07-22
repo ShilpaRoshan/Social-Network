@@ -1,4 +1,4 @@
-
+DROP TABLE IF EXISTS friend_requests;
 DROP TABLE IF EXISTS reset_password;
 DROP TABLE IF EXISTS users;
 
@@ -20,3 +20,19 @@ CREATE TABLE reset_password(
     code VARCHAR NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE friend_requests(
+    id SERIAL PRIMARY KEY,
+    accepted BOOLEAN DEFAULT FALSE,
+    receiver_id INT REFERENCES users (id) NOT NULL,
+    sender_id INT REFERENCES users (id) NOT NULL
+    
+);
+
+/*SELECT u.id, u.first_name, u.last_name, u.profile_url, f.accepted
+FROM friend_requests AS f
+JOIN users AS u
+ON(f.accepted = false AND f.receiver_id = 200 AND f.sender_id = u.id)
+OR(f.accepted = true AND f.receiver_id = 200 AND f.sender_id = u.id)
+OR(f.accepted = true AND f.sender_id = 200 AND f.receiver_id = u.id)
+WHERE u.id = 6;*/

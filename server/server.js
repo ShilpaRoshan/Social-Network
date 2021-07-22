@@ -24,6 +24,7 @@ const {
     addFriendRequest,
     updateFriendship,
     deleteFriendship,
+    getFriendsAndWannabes,
 } = require("../db");
 
 const app = express();
@@ -301,7 +302,10 @@ app.get("/api/user/:id/relationship", (request, response) => {
     const secondId = request.params.id;
     console.log("[firstId-in-getUserRelationship]", firstId);
     console.log("[secondId-in-getUserRelationship]", secondId);
-    getUserRelationship({ firstId, secondId }).then((friendship) => {
+    getUserRelationship({
+        firstId: request.session.userId,
+        secondId: request.params.id,
+    }).then((friendship) => {
         console.log("[friendship-before]", friendship);
         if (!friendship) {
             response.statusCode = 404;
@@ -314,10 +318,10 @@ app.get("/api/user/:id/relationship", (request, response) => {
 });
 
 app.post("/api/user/:id/relationship", (request, response) => {
-    const firstId = request.session.userId;
-    const secondId = request.params.id;
-    console.log("[firstId-in-post]", firstId);
-    console.log("[secondId]-in-post", secondId);
+    // const firstId = request.session.userId;
+    // const secondId = request.params.id;
+    // console.log("[firstId-in-post]", firstId);
+    // console.log("[secondId]-in-post", secondId);
 
     addFriendRequest({
         senderId: request.session.userId,
@@ -360,6 +364,17 @@ app.delete("/api/user/:id/relationship", (request, response) => {
         .catch((error) => {
             console.log("[deleteFriendship-friend-server-error]", error);
         });
+});
+
+app.get("/api/user/friends-and-wannabes", (request, response) => {
+    const firstId = request.session.userId;
+    const secondId = request.params.id;
+    console.log("[firstId-in-getFriendsAndWannabes]", firstId);
+    console.log("[secondId-in-getFriendsAndWannabes]", secondId);
+    getFriendsAndWannabes({ id: request.session.id }).then((result) => {
+        console.log("[getFriendsAndWannabes-result]", result);
+        response.json(result);
+    });
 });
 
 app.get("*", function (request, response) {
