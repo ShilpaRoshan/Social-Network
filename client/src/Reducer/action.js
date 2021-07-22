@@ -8,6 +8,6 @@ export async function receiveFriendsAndWannabes() {
 
     return {
         type: "RECEIVE_FRIENDS_WANNABES",
-        friends: data,
+        friends: response.data,
     };
 }
