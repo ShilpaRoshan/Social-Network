@@ -182,6 +182,18 @@ function getFriendsAndWannabes({ userId }) {
         });
 }
 
+function addChat({ id }) {
+    return db
+        .query(
+            `INSERT INTO chat (message, sender_id) VALUES ($1, $2) RETURNING *`,
+            [id]
+        )
+        .then((result) => {
+            console.log("[db.js-addChat function-result]", result.rows[0]);
+            return result.rows[0];
+        });
+}
+
 module.exports = {
     createUser,
     getUserByEmail,
@@ -198,6 +210,7 @@ module.exports = {
     updateFriendship,
     deleteFriendship,
     getFriendsAndWannabes,
+    addChat,
 };
 // SELECT users.id, first_name, last_name, users.profile_url, accepted
 //     FROM friend_requests

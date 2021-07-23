@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS chat;
 DROP TABLE IF EXISTS friend_requests;
 DROP TABLE IF EXISTS reset_password;
 DROP TABLE IF EXISTS users;
@@ -29,10 +30,10 @@ CREATE TABLE friend_requests(
     
 );
 
-/*SELECT u.id, u.first_name, u.last_name, u.profile_url, f.accepted
-FROM friend_requests AS f
-JOIN users AS u
-ON(f.accepted = false AND f.receiver_id = 200 AND f.sender_id = u.id)
-OR(f.accepted = true AND f.receiver_id = 200 AND f.sender_id = u.id)
-OR(f.accepted = true AND f.sender_id = 200 AND f.receiver_id = u.id)
-WHERE u.id = 6;*/
+CREATE TABLE chat(
+    id SERIAL PRIMARY KEY,
+    message TEXT,
+    sender_id INT REFERENCES users (id) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+);
