@@ -25,6 +25,8 @@ const {
     updateFriendship,
     deleteFriendship,
     getFriendsAndWannabes,
+    addChatMessage,
+    getChatHistory,
 } = require("../db");
 
 const app = express();
@@ -37,13 +39,11 @@ const cookieSessionMiddleware = cookieSession({
     secret: `I'm always angry.`,
     maxAge: 1000 * 60 * 60 * 24 * 90,
 });
+app.use(cookieSessionMiddleware);
 
 io.use(function (socket, next) {
+    console.log("[hello-in-io-use]");
     cookieSessionMiddleware(socket.request, socket.request.res, next);
-});
-
-io.on("connection", (socket) => {
-    console.log(`[socket.io] incoming connection with id: ${socket.id}`);
 });
 
 app.use(compression());
@@ -52,15 +52,14 @@ app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 //middleware for the json(request.body)
 app.use(express.json());
-//cookie-session middleware
-app.use(
-    cookieSession({
-        secret: `I'm always angry.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// //cookie-session middleware
+// app.use(
+//     cookieSession({
+//         secret: `I'm always angry.`,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
 
-app.use(cookieSessionMiddleware);
 //csurf middle ware
 app.use(csurf());
 
@@ -130,7 +129,7 @@ app.post("/api/login", (request, response) => {
     login(email, password)
         .then((user) => {
             console.log("[user-in-login]", user);
-            console.log("[user-id-in-login]", request.session.userId);
+            console.log("[user-id-in-login..]", request.session.userId);
             request.session.userId = user.id;
             response.json(user);
         })
@@ -395,6 +394,34 @@ app.get("/api/friends_and_wannabes", (request, response) => {
         .catch((error) => {
             console.log("[getFriendsAndWannabes]", error);
         });
+});
+
+io.on("connection", (socket) => {
+    const id = socket.request.session.userId;
+    console.log(
+        `[socket.io] incoming connectionwith id ${socket.id}, and userId : ${id}`
+    );
+    if (!id) {
+        return socket.disconnect(true);
+    }
+    //from sender-client only
+    getChatHistory().then((messages) => {
+        console.log("[messages-server-getChatHistory]", messages);
+        socket.emit("chatMessages", messages);
+    });
+    //eventListener,can be called on client to execute on server
+    socket.on("chatMessage", (newMessage) => {
+        const id = socket.request.session.userId;
+        console.log("[sender_id,newMessage]", id, newMessage);
+        addChatMessage({ message: newMessage, id })
+            .then((insertMessage) => {
+                console.log("[addMessage]", insertMessage);
+                io.emit("chatMessage", insertMessage);
+            })
+            .catch((error) => {
+                console.log("[Error-in-socket-addChatMessage]", error);
+            });
+    });
 });
 
 app.get("*", function (request, response) {

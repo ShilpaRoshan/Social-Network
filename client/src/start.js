@@ -6,9 +6,8 @@ import { Provider } from "react-redux";
 import reduxPromise from "redux-promise";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./Reducer/reducer";
-
 import App from "./components/App";
-
+import { init } from "./socket";
 //store
 const store = createStore(
     reducer,
@@ -25,6 +24,7 @@ axios.get("/user/id.json").then((response) => {
             </Provider>,
             document.querySelector("main")
         );
+        init(store);
         return;
     }
     //user logged out

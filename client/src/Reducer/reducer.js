@@ -2,10 +2,13 @@ import {
     RECEIVE_FRIENDS_WANNABES,
     ACCEPT_FRIENDSHIP,
     UNFRIEND,
+    CHAT_MESSAGES,
+    CHAT_MESSAGE,
 } from "./action";
 
 const initialState = {
     friends: [],
+    incomingMessages: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -42,6 +45,21 @@ export default function reducer(state = initialState, action) {
         return {
             ...state,
             friends: deleteFriends,
+        };
+    }
+    if (action.type === CHAT_MESSAGES) {
+        console.log("[CHAT_MESSAGES-reducer-file]", action.manyMessages, state);
+        return {
+            ...state,
+            incomingMessages: action.manyMessages,
+        };
+    }
+    if (action.type === CHAT_MESSAGE) {
+        console.log("[CHAT_MESSAGE-reducer-file]", action.singleMessage, state);
+
+        return {
+            ...state,
+            incomingMessages: [...state.incomingMessages, action.singleMessage],
         };
     }
     return state;

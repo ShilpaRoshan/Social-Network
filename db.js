@@ -182,11 +182,27 @@ function getFriendsAndWannabes({ userId }) {
         });
 }
 
-function addChat({ id }) {
+function getChatHistory() {
+    return db
+        .query(
+            `SELECT  users.id, users.first_name, users.last_name, users.profile_url, chat.id, chat.created_at, chat.message
+            FROM chat
+            JOIN users
+            ON chat.sender_id = users.id
+            ORDER BY created_at DESC
+            LIMIT 10 `
+        )
+        .then((result) => {
+            console.log("[getChatHistory-dbfile]", result.rows);
+            return result.rows;
+        });
+}
+
+function addChatMessage({ message, id }) {
     return db
         .query(
             `INSERT INTO chat (message, sender_id) VALUES ($1, $2) RETURNING *`,
-            [id]
+            [message, id]
         )
         .then((result) => {
             console.log("[db.js-addChat function-result]", result.rows[0]);
@@ -210,7 +226,8 @@ module.exports = {
     updateFriendship,
     deleteFriendship,
     getFriendsAndWannabes,
-    addChat,
+    addChatMessage,
+    getChatHistory,
 };
 // SELECT users.id, first_name, last_name, users.profile_url, accepted
 //     FROM friend_requests

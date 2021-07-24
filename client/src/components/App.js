@@ -7,6 +7,7 @@ import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
 import Logout from "./Logout";
 import Friends from "./Friends";
+import Chat from "./Chat";
 import axios from "../axios";
 
 export default class App extends Component {
@@ -98,6 +99,7 @@ export default class App extends Component {
                         <Link to="/user/:id">Other profiles</Link>
                         <Link to="users">Find People</Link>
                         <Link to="/friends">Friends</Link>
+                        <Link to="/chat">Chat</Link>
                     </Route>
                     <Route path="/user/:id" component={OtherProfile} />
                     <Route path="/users">
@@ -105,6 +107,9 @@ export default class App extends Component {
                     </Route>
                     <Route path="/friends">
                         <Friends></Friends>
+                    </Route>
+                    <Route path="/chat">
+                        <Chat></Chat>
                     </Route>
                     <Logout />
                 </div>
