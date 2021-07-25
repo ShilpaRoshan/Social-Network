@@ -338,8 +338,8 @@ app.get("/api/user/:id/relationship", (request, response) => {
 app.post("/api/user/:id/relationship", (request, response) => {
     // const firstId = request.session.userId;
     // const secondId = request.params.id;
-    // console.log("[firstId-in-post]", firstId);
-    // console.log("[secondId]-in-post", secondId);
+    console.log("[senderId-in-post]", request.session.userId);
+    console.log("[receiverId]-in-post", request.params.id);
 
     addFriendRequest({
         senderId: request.session.userId,
@@ -414,9 +414,17 @@ io.on("connection", (socket) => {
         const id = socket.request.session.userId;
         console.log("[sender_id,newMessage]", id, newMessage);
         addChatMessage({ message: newMessage, id })
-            .then((insertMessage) => {
-                console.log("[addMessage]", insertMessage);
-                io.emit("chatMessage", insertMessage);
+            .then((messageId) => {
+                console.log("[addMessage]", messageId);
+                getUserById(id).then((user) => {
+                    console.log("[id-user-addChatMessage]", user);
+                    const newMessageInfo = {
+                        first_name: user.first_name,
+                        message: newMessage,
+                        id: messageId,
+                    };
+                    io.emit("chatMessage", newMessageInfo);
+                });
             })
             .catch((error) => {
                 console.log("[Error-in-socket-addChatMessage]", error);

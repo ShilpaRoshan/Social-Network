@@ -35,22 +35,26 @@ export default class BioEditor extends Component {
             <div>
                 <form className="bio-edit" onSubmit={this.onSubmit}>
                     <textarea
+                        className="bio-textarea"
                         name="bio-edit"
-                        rows="4"
-                        cols="20"
                         onInput={this.onInput}
                         defaultValue={this.props.bio}
                     ></textarea>
-                    <button type="submit">Save</button>
+                    <button type="submit" className="save-button">
+                        Save
+                    </button>
                 </form>
             </div>
         );
     }
     renderDisplayMode() {
         return (
-            <div>
-                <p>{this.props.bio}</p>
-                <button onClick={this.onEditButtonClick}>
+            <div className="bio-edit-add-button-container">
+                <p className="bio-para">{this.props.bio}</p>
+                <button
+                    onClick={this.onEditButtonClick}
+                    className="edit-add-button"
+                >
                     {this.props.bio ? "Edit Bio" : "Add Bio"}
                 </button>
             </div>

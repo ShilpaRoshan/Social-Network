@@ -41,30 +41,41 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="Login">
-                <h1>Login</h1>
-                <form onSubmit={this.onFormSubmit}>
-                    <label htmlFor="email">E-mail</label>
+            <div className="login">
+                <form onSubmit={this.onFormSubmit} className="login-form">
+                    <h2 className="login-header">Login</h2>
+                    <label htmlFor="email" className="label">
+                        E-mail
+                    </label>
                     <input
                         type="email"
                         name="email"
                         placeholder="E-mail"
                         required
                         onChange={this.onChange}
+                        className="input-value"
                     />
 
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password" className="label">
+                        Password
+                    </label>
                     <input
                         type="password"
                         name="password"
                         placeholder="Password"
                         required
                         onChange={this.onChange}
+                        className="input-value"
                     />
-                    <div>
-                        <button type="submit">Login</button>
-                        <Link to="/api/password/reset/start">
-                            Forgot Password Click here!!
+                    <div className="button-container">
+                        <button type="submit" className="login-button">
+                            Login
+                        </button>
+                        <Link
+                            to="/api/password/reset/start"
+                            className="forgot-password-link"
+                        >
+                            Forgot Password?
                         </Link>
                     </div>
                 </form>

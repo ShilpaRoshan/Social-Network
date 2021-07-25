@@ -74,14 +74,44 @@ export default class App extends Component {
             <BrowserRouter>
                 <div className="app">
                     <header>
-                        <span className="logo">Logo</span>
+                        <h4 className="logo-app">Logo</h4>
+                        <nav>
+                            <ul className="nav-links">
+                                <li>
+                                    <Link to="/user/:id" className="link-to">
+                                        Other profiles
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="users" className="link-to">
+                                        Find People
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/friends" className="link-to">
+                                        Friends
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/chat" className="link-to">
+                                        Chat
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Logout />
+                                </li>
+                            </ul>
+                        </nav>
+
                         <ProfilePicture
                             firstName={this.state.firstName}
                             lastName={this.state.lastName}
                             profileUrl={this.state.profileUrl}
                             onClick={this.onProfilePictureClick}
+                            className="picture-resize"
                         />
                     </header>
+
                     {this.state.showModal && (
                         <ProfilePictureUploader
                             onUpload={this.onUpload}
@@ -89,17 +119,16 @@ export default class App extends Component {
                         />
                     )}
                     <Route exact path="/">
-                        <Profile
-                            firstName={this.state.firstName}
-                            lastName={this.state.lastName}
-                            profileUrl={this.state.profileUrl}
-                            bio={this.state.bio}
-                            onBioChange={this.onBioChange}
-                        />
-                        <Link to="/user/:id">Other profiles</Link>
-                        <Link to="users">Find People</Link>
-                        <Link to="/friends">Friends</Link>
-                        <Link to="/chat">Chat</Link>
+                        <div className="profile-container">
+                            <Profile
+                                firstName={this.state.firstName}
+                                lastName={this.state.lastName}
+                                profileUrl={this.state.profileUrl}
+                                bio={this.state.bio}
+                                onBioChange={this.onBioChange}
+                                className="avatar"
+                            />
+                        </div>
                     </Route>
                     <Route path="/user/:id" component={OtherProfile} />
                     <Route path="/users">
@@ -111,7 +140,6 @@ export default class App extends Component {
                     <Route path="/chat">
                         <Chat></Chat>
                     </Route>
-                    <Logout />
                 </div>
             </BrowserRouter>
         );

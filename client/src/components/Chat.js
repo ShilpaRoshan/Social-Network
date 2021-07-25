@@ -1,4 +1,4 @@
-import socket from "../socket";
+import { socket } from "../socket";
 import { useSelector } from "react-redux";
 import { useRef } from "react";
 
@@ -30,6 +30,7 @@ export default function Chat() {
         let currentMessage = messageTextArea.current.value;
         console.log("sendMessage", currentMessage);
         socket.emit("chatMessage", currentMessage);
+        messageTextArea.current.value = "";
     }
 
     return (

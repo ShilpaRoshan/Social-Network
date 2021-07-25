@@ -32,18 +32,31 @@ export default class ProfilePictureUploader extends Component {
     render() {
         return (
             <div className="profile-picture-uploader">
-                <div className="modal-content">
-                    <button
-                        className="modal-close"
-                        onClick={this.props.onModalClose}
-                    >
-                        X
-                    </button>
-                    <form onSubmit={this.onFormSubmit}>
-                        <h2>Upload your picture</h2>
-                        <input type="file" onChange={this.onChange}></input>
-                        <button type="submit">Upload</button>
-                    </form>
+                <div className="modal-background">
+                    <div className="modal-content">
+                        <button
+                            className="modal-close"
+                            onClick={this.props.onModalClose}
+                        >
+                            X
+                        </button>
+                        <form
+                            onSubmit={this.onFormSubmit}
+                            className="upload-form"
+                        >
+                            <h2 className="upload-header">
+                                Upload your picture
+                            </h2>
+                            <input
+                                type="file"
+                                onChange={this.onChange}
+                                className="input-file-upload"
+                            ></input>
+                            <button type="submit" className="upload-button">
+                                Upload
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         );

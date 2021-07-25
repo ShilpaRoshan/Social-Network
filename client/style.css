@@ -1,3 +1,326 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
 body {
-    background-color: ghostwhite;
+    background-color: #fffbf0;
+    font-family: "Open Sans", sans-serif;
+}
+/*Welcome page and authentication*/
+.welcome {
+    height: 100vh;
+    display: flex;
+}
+.logo {
+    width: 800px;
+    height: 500px;
+    object-fit: cover;
+    align-self: center;
+    padding: 30px;
+    border-radius: 50px;
+}
+.registration {
+    display: flex;
+    flex-direction: column;
+
+    width: 400px;
+    height: 650px;
+    align-self: center;
+    justify-content: center;
+    margin-left: 50px;
+}
+.registration-header {
+    align-self: center;
+    padding: 5px;
+}
+.registration-form {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+.label {
+    margin-left: 19px;
+    padding: 4px;
+}
+.input-value {
+    height: 40px;
+    width: 300px;
+    margin-left: 23px;
+    padding: 4px;
+}
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80px;
+    padding: 10px;
+    margin: 10px;
+}
+.register-button,
+.login-button,
+.step1-submit-button,
+.step2-submit-button {
+    width: 150px;
+    height: 50px;
+    align-self: center;
+    background-color: #ffe381;
+    border: none;
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+}
+.login-link,
+.forgot-password-link {
+    align-self: center;
+    padding-top: 9px;
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+}
+
+/*Login-page*/
+
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 400px;
+    align-self: center;
+    justify-content: center;
+    margin-left: 50px;
+}
+.login-form {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+.login-header,
+.upload-header {
+    align-self: center;
+    padding: 5px;
+}
+/*Reset-password-step-1*/
+.reset-header {
+    align-self: center;
+    padding: 10px;
+    height: 45px;
+}
+.reset-password-step-1,
+.reset-password-step-2,
+.reset-password-step-3 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+    width: 350px;
+    height: 300px;
+    border: 1px solid black;
+    align-self: center;
+}
+.reset-password-step-2 {
+    width: 400px;
+    height: 350px;
+}
+.reset-password-step-3 {
+    width: 425px;
+    height: 130px;
+}
+.reset-password-para {
+    padding: 10px;
+    color: darkcyan;
+    font-style: italic;
+    font-size: 19px;
+}
+.label-reset-password {
+    margin-left: 19px;
+    margin-bottom: 10px;
+}
+.input-value-reset-password {
+    height: 40px;
+    width: 300px;
+    margin-left: 23px;
+    margin-top: 10px;
+}
+.step1-container,
+.step2-container {
+    height: 200px;
+    display: flex;
+    padding-top: 20px;
+    flex-direction: column;
+}
+.step2-container {
+    height: 300px;
+}
+.error {
+    align-self: center;
+    color: red;
+    padding: 5px;
+}
+.login-link-reset {
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
+    color: black;
+}
+/*App-nav bar-header*/
+.app {
+    background-color: #fffbf0;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #ffaaab;
+    width: 100%;
+    height: 70px;
+}
+.logo-app {
+    padding: 0px 20px;
+    margin-right: auto;
+}
+.picture-resize {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    align-self: flex-end;
+    margin-right: 20px;
+}
+
+li {
+    list-style: none;
+}
+.link-to {
+    cursor: pointer;
+    color: #101357;
+    text-decoration: none;
+}
+.link-to:hover {
+    transition: all 0.3s ease 0s;
+    padding: 5px;
+    border: 1px solid #8076a3;
+    border-radius: 30px;
+    background-color: #8076a3;
+    color: whitesmoke;
+}
+.nav-links {
+    padding-left: 50px;
+    flex-grow: 1;
+}
+.nav-links li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+/*upload picture*/
+.profile-picture-uploader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    width: 300px;
+    height: 300px;
+    background-color: #fffbf0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+}
+.modal-close {
+    width: 20px;
+    align-self: flex-end;
+    margin: 20px 10px;
+    border: none;
+    background-color: #fffbf0;
+}
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.input-file-upload {
+    padding: 30px;
+}
+.upload-button,
+.edit-add-button,
+.save-button {
+    width: 150px;
+    height: 30px;
+    background-color: #ffe381;
+    border: none;
+    align-self: center;
+}
+/*main-profile*/
+/* .profile-container {
+    border: 1px solid #de354c;
+    padding: 20px;
+} */
+.profile {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    width: 600px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    margin-left: 300px;
+}
+.user-name {
+    padding: 10px;
+}
+/*bio-editor*/
+.bio-editor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+.bio-para {
+    padding: 9px;
+}
+.bio-edit-add-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*bio-textarea*/
+.bio-edit {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+.bio-textarea {
+    width: 200px;
+    height: 100px;
+    margin: 10px;
+}
+.logout-button {
+    border: none;
+    background-color: #ffaaab;
+    color: #101357;
+    width: 80px;
+    height: 18px;
+    font-size: 17px;
+}
+.logout-button:hover {
+    transition: all 0.3s ease 0s;
+
+    border: 1px solid #8076a3;
+    border-radius: 30px;
+    background-color: #8076a3;
+    color: whitesmoke;
+    width: 80px;
+    height: 30px;
 }

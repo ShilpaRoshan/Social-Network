@@ -15,7 +15,9 @@ export default class Logout extends Component {
         return (
             <div className="logout">
                 <form onSubmit={this.onFormSubmit}>
-                    <button type="submit">Logout</button>
+                    <button type="submit" className="logout-button">
+                        Logout
+                    </button>
                 </form>
             </div>
         );

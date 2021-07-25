@@ -131,8 +131,8 @@ function getUserRelationship({ firstId, secondId }) {
 function addFriendRequest({ senderId, receiverId }) {
     return db
         .query(
-            `INSERT INTO friend_requests (receiver_id,sender_id) VALUES ($1, $2) RETURNING *`,
-            [senderId, receiverId]
+            `INSERT INTO friend_requests (receiver_id, sender_id) VALUES ($1, $2) RETURNING *`,
+            [receiverId, senderId]
         )
         .then((result) => {
             console.log("[addFriendRequest-db]", result.rows[0]);
@@ -189,7 +189,8 @@ function getChatHistory() {
             FROM chat
             JOIN users
             ON chat.sender_id = users.id
-            ORDER BY created_at DESC
+            group by 1,2,3,4,5,6,7
+            ORDER BY chat.created_at ASC
             LIMIT 10 `
         )
         .then((result) => {
@@ -201,7 +202,7 @@ function getChatHistory() {
 function addChatMessage({ message, id }) {
     return db
         .query(
-            `INSERT INTO chat (message, sender_id) VALUES ($1, $2) RETURNING *`,
+            `INSERT INTO chat (message, sender_id) VALUES ($1, $2) RETURNING id`,
             [message, id]
         )
         .then((result) => {

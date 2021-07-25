@@ -43,47 +43,66 @@ export default class Registration extends Component {
     }
     render() {
         return (
-            <div className="Registration">
-                <h1>Registration</h1>
-                <form onSubmit={this.onFormSubmit}>
-                    <label htmlFor="first_name">First Name</label>
+            <div className="registration">
+                <form
+                    onSubmit={this.onFormSubmit}
+                    className="registration-form"
+                >
+                    <h2 className="registration-header">Register Yourself!!</h2>
+                    <label htmlFor="first_name" className="label">
+                        First Name
+                    </label>
                     <input
                         type="text"
                         name="first_name"
                         placeholder="First Name"
                         required
                         onChange={this.onChange}
+                        className="input-value"
                     />
 
-                    <label htmlFor="last_name">Last Name</label>
+                    <label htmlFor="last_name" className="label">
+                        Last Name
+                    </label>
                     <input
                         type="text"
                         name="last_name"
                         placeholder="Last Name"
                         required
                         onChange={this.onChange}
+                        className="input-value"
                     />
 
-                    <label htmlFor="email">E-mail</label>
+                    <label htmlFor="email" className="label">
+                        E-mail
+                    </label>
                     <input
                         type="email"
                         name="email"
                         placeholder="E-mail"
                         required
                         onChange={this.onChange}
+                        className="input-value"
                     />
 
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password" className="label">
+                        Password
+                    </label>
                     <input
                         type="password"
                         name="password"
                         placeholder="Password"
                         required
                         onChange={this.onChange}
+                        className="input-value"
                     />
-                    <div>
-                        <button type="submit">Register</button>
-                        <Link to="/login">Click here to Log in!</Link>
+                    <div className="button-container">
+                        <button type="submit" className="register-button">
+                            Register
+                        </button>
+                        <Link to="/login" className="login-link">
+                            LogIn
+                        </Link>
                     </div>
                 </form>
                 {/* {this.state.errorMessage && (

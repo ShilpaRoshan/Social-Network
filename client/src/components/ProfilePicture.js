@@ -4,13 +4,16 @@ export default function ProfilePicture({
     lastName,
     profileUrl,
     onClick,
+    className,
 }) {
     return (
-        <img
-            className="profile-picture"
-            src={profileUrl || defaultImage}
-            alt={`${firstName} ${lastName}`}
-            onClick={onClick}
-        ></img>
+        <div className="profile-picture">
+            <img
+                className={className}
+                src={profileUrl || defaultImage}
+                alt={`${firstName} ${lastName}`}
+                onClick={onClick}
+            ></img>
+        </div>
     );
 }
