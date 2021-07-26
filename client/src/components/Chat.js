@@ -18,9 +18,14 @@ export default function Chat() {
         }
         return incomingMessages.map((message) => {
             return (
-                <li key={message.id}>
-                    <strong>{message.first_name} :</strong>
-                    {message.message}
+                <li key={message.id} className="each-chat-item">
+                    <img
+                        src={message.profile_url}
+                        className="chat-user-profile"
+                    ></img>
+
+                    <p className="chat-person-name">{message.first_name} :</p>
+                    <p className="chat-message">{message.message} </p>
                 </li>
             );
         });
@@ -34,13 +39,20 @@ export default function Chat() {
     }
 
     return (
-        <div className="chat-container">
-            <ul>{renderMessages()}</ul>
+        <div className="chat-wrapper">
+            <h2>Chat</h2>
+            <ul className="chat-container">{renderMessages()}</ul>
+            <hr></hr>
             <textarea
                 placeholder="Type your message here!"
                 ref={messageTextArea}
+                className="chat-textarea"
             ></textarea>
-            <button type="submit" onClick={sendMessage}>
+            <button
+                type="submit"
+                onClick={sendMessage}
+                className="chat-send-button"
+            >
                 Send
             </button>
         </div>

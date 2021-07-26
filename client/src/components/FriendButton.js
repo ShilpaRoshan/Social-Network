@@ -78,7 +78,11 @@ export default function FriendButton({ id }) {
 
     return (
         <div>
-            <button type="submit" onClick={buttonClick}>
+            <button
+                type="submit"
+                onClick={buttonClick}
+                className="friend-request-button"
+            >
                 {buttonText}
             </button>
         </div>

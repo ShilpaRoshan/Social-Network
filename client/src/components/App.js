@@ -78,12 +78,12 @@ export default class App extends Component {
                         <nav>
                             <ul className="nav-links">
                                 <li>
-                                    <Link to="/user/:id" className="link-to">
+                                    <Link to="/users/:id" className="link-to">
                                         Other profiles
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="users" className="link-to">
+                                    <Link to="/users/" className="link-to">
                                         Find People
                                     </Link>
                                 </li>
@@ -119,18 +119,15 @@ export default class App extends Component {
                         />
                     )}
                     <Route exact path="/">
-                        <div className="profile-container">
-                            <Profile
-                                firstName={this.state.firstName}
-                                lastName={this.state.lastName}
-                                profileUrl={this.state.profileUrl}
-                                bio={this.state.bio}
-                                onBioChange={this.onBioChange}
-                                className="avatar"
-                            />
-                        </div>
+                        <Profile
+                            firstName={this.state.firstName}
+                            lastName={this.state.lastName}
+                            profileUrl={this.state.profileUrl}
+                            bio={this.state.bio}
+                            onBioChange={this.onBioChange}
+                        />
                     </Route>
-                    <Route path="/user/:id" component={OtherProfile} />
+                    <Route path="/users/:id" component={OtherProfile} />
                     <Route path="/users">
                         <FindPeople></FindPeople>
                     </Route>

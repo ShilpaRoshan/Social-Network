@@ -7,7 +7,6 @@ export default function Profile({
     profileUrl,
     bio,
     onBioChange,
-    className,
 }) {
     return (
         <div className="profile">
@@ -15,7 +14,7 @@ export default function Profile({
                 firstName={firstName}
                 lastName={lastName}
                 profileUrl={profileUrl}
-                className={className}
+                className="bigProfilepic"
             />
             <h2 className="user-name">
                 {firstName} {lastName}

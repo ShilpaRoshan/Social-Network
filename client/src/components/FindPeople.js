@@ -35,8 +35,8 @@ export default function FindPeople() {
         return recentUsers.map((user) => {
             //console.log("[user-in-renderMostRecentUsers]", user);
             return (
-                <li key={user.id}>
-                    <Link to={`/users/${user.id}`}>
+                <li key={user.id} className="list-newMembers">
+                    <Link to={`/api/user/${user.id}`}>
                         {user.first_name} {user.last_name}
                     </Link>
                 </li>
@@ -48,9 +48,12 @@ export default function FindPeople() {
         return results.map((user) => {
             console.log("[user-in-renderSearchResults]", user);
             return (
-                <li key={user.id}>
-                    <img src={user.profile_url}></img>
-                    <Link to={`/users/${user.id}`}>
+                <li key={user.id} className="li-find-people">
+                    <img
+                        src={user.profile_url}
+                        className="find-people-image"
+                    ></img>
+                    <Link to={`/users/${user.id}`} className="search-username">
                         {user.first_name} {user.last_name}
                     </Link>
                 </li>
@@ -60,21 +63,27 @@ export default function FindPeople() {
 
     return (
         <section className="find-people">
-            <h2>Find People</h2>
-            <section>
-                <h3>New Members!!</h3>
-                <ul>{renderMostRecentUsers()}</ul>
+            <h2 className="find-people-header">Find People</h2>
+            <section className="newMembers">
+                <h3 className="sub-header-newmembers">New Members!!</h3>
+                <ul className="container-list-new-members">
+                    {renderMostRecentUsers()}
+                </ul>
             </section>
-            <section>
-                <h3>Looking for someone in particular?</h3>
+
+            <section className="newMembers">
+                <h3 className="sub-header-newmembers">
+                    Looking for someone in particular?
+                </h3>
                 <p>
                     <input
                         type="text"
                         placeholder="Search"
                         onChange={onChange}
+                        className="input-search"
                     ></input>
                 </p>
-                <ul>{renderSearchResults()}</ul>
+                <ul className="list-search">{renderSearchResults()}</ul>
             </section>
         </section>
     );

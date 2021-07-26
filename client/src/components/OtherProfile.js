@@ -46,11 +46,12 @@ export default class OtherProfile extends Component {
                 <img
                     src={this.state.profileUrl || defaultImage}
                     alt={`${this.state.firstName} ${this.state.lastName}`}
+                    className="other-user-profilepic"
                 ></img>
-                <h3>
+                <h3 className="other-profile-useraname">
                     {this.state.firstName} {this.state.lastName}
                 </h3>
-                <p>{this.state.bio}</p>
+                <p className="other-profile-bio">{this.state.bio}</p>
                 <div className="friend-request">
                     <FriendButton
                         id={this.props.match.params.id}

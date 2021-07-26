@@ -420,6 +420,9 @@ io.on("connection", (socket) => {
                     console.log("[id-user-addChatMessage]", user);
                     const newMessageInfo = {
                         first_name: user.first_name,
+                        last_name: user.last_name,
+                        profile_url: user.profile_url,
+                        created_at: user.created_at,
                         message: newMessage,
                         id: messageId,
                     };
