@@ -7,7 +7,7 @@ const logo = "../social-network.jpg";
 export default function Welcome() {
     return (
         <>
-            <h1>Social Network</h1>
+            <h1 className="main-header">Social Network</h1>
             <div className="welcome">
                 <img className="logo" src={logo}></img>
                 <HashRouter>

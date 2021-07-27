@@ -2,7 +2,7 @@ import { Component } from "react";
 import ProfilePicture from "./ProfilePicture.js";
 import ProfilePictureUploader from "./ProfilePictureUploade.js";
 import Profile from "./Profile";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
 import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
 import Logout from "./Logout";
@@ -75,15 +75,16 @@ export default class App extends Component {
                 <div className="app">
                     <header>
                         <h4 className="logo-app">Logo</h4>
+
                         <nav>
                             <ul className="nav-links">
                                 <li>
-                                    <Link to="/users/:id" className="link-to">
-                                        Other profiles
+                                    <Link to="/" className="link-to">
+                                        Home
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/users/" className="link-to">
+                                    <Link to="/users" className="link-to">
                                         Find People
                                     </Link>
                                 </li>
@@ -118,25 +119,27 @@ export default class App extends Component {
                             onModalClose={this.onModalClose}
                         />
                     )}
-                    <Route exact path="/">
-                        <Profile
-                            firstName={this.state.firstName}
-                            lastName={this.state.lastName}
-                            profileUrl={this.state.profileUrl}
-                            bio={this.state.bio}
-                            onBioChange={this.onBioChange}
-                        />
-                    </Route>
-                    <Route path="/users/:id" component={OtherProfile} />
-                    <Route path="/users">
-                        <FindPeople></FindPeople>
-                    </Route>
-                    <Route path="/friends">
-                        <Friends></Friends>
-                    </Route>
-                    <Route path="/chat">
-                        <Chat></Chat>
-                    </Route>
+                    <Switch>
+                        <Route exact path="/">
+                            <Profile
+                                firstName={this.state.firstName}
+                                lastName={this.state.lastName}
+                                profileUrl={this.state.profileUrl}
+                                bio={this.state.bio}
+                                onBioChange={this.onBioChange}
+                            />
+                        </Route>
+                        <Route path="/users/:id" component={OtherProfile} />
+                        <Route path="/users">
+                            <FindPeople></FindPeople>
+                        </Route>
+                        <Route path="/friends">
+                            <Friends></Friends>
+                        </Route>
+                        <Route path="/chat">
+                            <Chat></Chat>
+                        </Route>
+                    </Switch>
                 </div>
             </BrowserRouter>
         );

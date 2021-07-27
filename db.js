@@ -189,8 +189,7 @@ function getChatHistory() {
             FROM chat
             JOIN users
             ON chat.sender_id = users.id
-            group by 1,2,3,4,5,6,7
-            ORDER BY chat.created_at ASC
+            ORDER BY chat.created_at DESC
             LIMIT 10 `
         )
         .then((result) => {

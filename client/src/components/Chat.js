@@ -24,7 +24,7 @@ export default function Chat() {
                         className="chat-user-profile"
                     ></img>
 
-                    <p className="chat-person-name">{message.first_name} :</p>
+                    <p className="chat-person-name">{message.first_name}:</p>
                     <p className="chat-message">{message.message} </p>
                 </li>
             );

@@ -36,7 +36,7 @@ export default function FindPeople() {
             //console.log("[user-in-renderMostRecentUsers]", user);
             return (
                 <li key={user.id} className="list-newMembers">
-                    <Link to={`/api/user/${user.id}`}>
+                    <Link to={`/users/${user.id}`}>
                         {user.first_name} {user.last_name}
                     </Link>
                 </li>
