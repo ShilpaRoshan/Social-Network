@@ -2,7 +2,7 @@
 
 ---
 
-A social networking App where you can find your friends and can connect with them.
+A social networking App where you can find your friends and can connect with them. This app is buit with React,Redux,Socket.io,Postgresql,Node.js,Express.js,REST API
 
 ### Installation and Setup Instructions
 
